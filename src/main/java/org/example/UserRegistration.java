@@ -30,6 +30,25 @@ public class UserRegistration {
     private boolean cardStillValid;
     private boolean validCVV;
 
+
+    public UserRegistration(){
+
+    }
+
+
+
+    public UserRegistration(String fullName, String emailAddress, String dateOfBirth, long cardNumber,
+                            String cardExpiryDate, String cardProvider, int cvv, String userType) {
+        this.fullName = fullName;
+        this.emailAddress = emailAddress;
+        this.dateOfBirth = dateOfBirth;
+        this.cardNumber = cardNumber;
+        this.cardExpiryDate = cardExpiryDate;
+        this.cardProvider = cardProvider;
+        this.cvv = cvv;
+        this.userType = userType;
+    }
+
     public void registration() {
         Scanner scanner = new Scanner(System.in);
 

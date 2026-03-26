@@ -30,5 +30,8 @@ public class Main {
         user.registration();
         System.out.println(user);
 
+        AdminPanel adminPanel = new AdminPanel();
+        adminPanel.userManagementOptions();
+
     }
 }
