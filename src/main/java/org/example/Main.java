@@ -26,12 +26,14 @@ public class Main {
 
         System.out.println(feedBack);
 
+        AdminPanel adminPanel = new AdminPanel();
+        adminPanel.userManagementOptions();
+
+
         UserRegistration user = new UserRegistration();
         user.registration();
         System.out.println(user);
 
-        AdminPanel adminPanel = new AdminPanel();
-        adminPanel.userManagementOptions();
 
     }
 }

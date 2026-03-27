@@ -39,7 +39,8 @@ public class AdminPanel {
                     updateRegisteredUsers();
                     break;
                 case 5:
-                    System.out.println("Exiting program...");
+                    BikeRental rental = new BikeRental();
+                    rental.simulateApplicationInput();
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again");
@@ -172,7 +173,7 @@ public class AdminPanel {
         }
     }
 
-    // ---------------- UPDATE USERS ----------------
+  
 
     private void updateRegisteredUsers() {
 
