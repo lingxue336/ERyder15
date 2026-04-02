@@ -1,51 +1,42 @@
 package org.example;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
+import java.util.LinkedList;
 
 public class UserService {
-    private List<RegisteredUsers> registeredUsersList = new ArrayList<>();
 
+    private LinkedList<RegisteredUsers> registeredUsersList = new LinkedList<>();
 
     public void addUser(RegisteredUsers user) {
         registeredUsersList.add(user);
     }
 
+    public void viewUsers() {
 
-    public List<RegisteredUsers> getAllUsers() {
-        return registeredUsersList;
+        if (registeredUsersList.isEmpty()) {
+            System.out.println("No registered users.");
+            return;
+        }
+
+        for (RegisteredUsers user : registeredUsersList) {
+            System.out.println(user);
+        }
     }
 
+    public void removeUser(String email) {
 
-    public boolean removeUserByEmail(String email) {
         Iterator<RegisteredUsers> iterator = registeredUsersList.iterator();
+
         while (iterator.hasNext()) {
             RegisteredUsers user = iterator.next();
+
             if (user.getEmailAddress().equalsIgnoreCase(email)) {
                 iterator.remove();
-                return true;
+                System.out.println("User removed.");
+                return;
             }
         }
-        return false;
-    }
 
-    public boolean updateUserByEmail(String email, String newName, String newDob, long newCard, String newType) {
-        for (RegisteredUsers user : registeredUsersList) {
-            if (user.getEmailAddress().equalsIgnoreCase(email)) {
-                if (!newName.isEmpty()) user.setFullName(newName);
-                if (!newDob.isEmpty()) user.setDateOfBirth(newDob);
-                if (newCard != 0) user.setCardNumber(newCard);
-                if (!newType.isEmpty()) user.setUserType(newType);
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    public boolean isUserListEmpty() {
-        return registeredUsersList.isEmpty();
+        System.out.println("User not found.");
     }
 }
