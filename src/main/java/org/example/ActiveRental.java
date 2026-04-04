@@ -5,33 +5,31 @@ import java.time.LocalDateTime;
 public class ActiveRental {
 
     private String bikeID;
-    private String userEmail;
-    private LocalDateTime tripStartTime;
+    private RegisteredUsers user;
+    private LocalDateTime startTime;
 
-    // Constructor
-    public ActiveRental(String bikeID, String userEmail, LocalDateTime tripStartTime) {
+    public ActiveRental(String bikeID, RegisteredUsers user, LocalDateTime startTime) {
         this.bikeID = bikeID;
-        this.userEmail = userEmail;
-        this.tripStartTime = tripStartTime;
+        this.user = user;
+        this.startTime = startTime;
     }
 
-    // Getters
     public String getBikeID() {
         return bikeID;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public RegisteredUsers getUser() {
+        return user;
     }
 
-    public LocalDateTime getTripStartTime() {
-        return tripStartTime;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
     @Override
     public String toString() {
         return "Bike ID: " + bikeID +
-                ", User: " + userEmail +
-                ", Trip Started: " + tripStartTime;
+                ", User: " + user.getFullName() +
+                ", Start Time: " + startTime;
     }
 }
