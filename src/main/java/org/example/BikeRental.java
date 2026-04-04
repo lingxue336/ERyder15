@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class BikeRental {
 
+    private UserService userService;
+
     private BikeService bikeService = new BikeService();
     private RentalService rentalService = new RentalService();
 
@@ -22,7 +24,17 @@ public class BikeRental {
 
         bikeService.reserveBike(bikeID);
 
-        rentalService.startRental(bikeID, "user@email.com");
+        System.out.print("Enter user email: ");
+        String email = scanner.nextLine();
+
+        RegisteredUsers user = userService.findUserByEmail(email);
+
+        if (user == null) {
+            System.out.println("User not found.");
+            return;
+        }
+
+        rentalService.startRental(bikeID, user);
 
         rentalService.viewActiveRentals();
 

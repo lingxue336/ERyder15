@@ -4,62 +4,125 @@ import java.util.Scanner;
 
 public class AdminPanel {
 
-    private UserService userService = new UserService();
+    private BikeService bikeService;
+    private UserService userService;
+    private RentalService rentalService;
 
-    public void userManagementOptions() {
+    private Scanner scanner = new Scanner(System.in);
 
-        Scanner scanner = new Scanner(System.in);
+    public AdminPanel(BikeService bikeService,
+                      UserService userService,
+                      RentalService rentalService) {
 
-        System.out.println("1. Add User");
-        System.out.println("2. View Users");
+        this.bikeService = bikeService;
+        this.userService = userService;
+        this.rentalService = rentalService;
+    }
 
-        int choice = scanner.nextInt();
+    public void showMenu() {
+
+        while (true) {
+
+            System.out.println("\n--- Admin Panel ---");
+            System.out.println("1. Add New User");
+            System.out.println("2. Start Rental");
+            System.out.println("3. End Rental");
+            System.out.println("4. View Active Rentals");
+            System.out.println("5. Exit");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+
+                case 1:
+                    addNewUser();
+                    break;
+
+                case 2:
+                    startRental();
+                    break;
+
+                case 3:
+                    endRental();
+                    break;
+
+                case 4:
+                    rentalService.viewActiveRentals();
+                    break;
+
+                case 5:
+                    return;
+
+                default:
+                    System.out.println("Invalid option.");
+            }
+        }
+    }
+
+    private void addNewUser() {
+
+        System.out.print("Full Name: ");
+        String fullName = scanner.nextLine();
+
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Date of Birth: ");
+        String dob = scanner.nextLine();
+
+        System.out.print("Card Number: ");
+        long cardNumber = scanner.nextLong();
         scanner.nextLine();
 
-        switch (choice) {
-            case 1:
+        System.out.print("Card Expiry Date: ");
+        String expiry = scanner.nextLine();
 
-                System.out.print("Full name: ");
-                String fullName = scanner.nextLine();
+        System.out.print("Card Provider: ");
+        String provider = scanner.nextLine();
 
-                System.out.print("Email: ");
-                String email = scanner.nextLine();
+        System.out.print("CVV: ");
+        int cvv = scanner.nextInt();
+        scanner.nextLine();
 
-                System.out.print("Date of Birth: ");
-                String dob = scanner.nextLine();
+        System.out.print("User Type (VIP/Regular): ");
+        String userType = scanner.nextLine();
 
-                System.out.print("Card Number: ");
-                long cardNumber = scanner.nextLong();
-                scanner.nextLine();
+        String[] lastTrips = new String[0];
 
-                System.out.print("Card Expiry Date: ");
-                String expiry = scanner.nextLine();
+        RegisteredUsers user = userService.addNewUser(
+                fullName, email, dob,
+                cardNumber, expiry, provider,
+                cvv, userType, lastTrips
+        );
 
-                System.out.print("Card Provider: ");
-                String provider = scanner.nextLine();
+        System.out.println("User created successfully.");
+        user.displayUserType();
+    }
 
-                System.out.print("CVV: ");
-                int cvv = scanner.nextInt();
-                scanner.nextLine();
+    private void startRental() {
 
-                System.out.print("User Type: ");
-                String userType = scanner.nextLine();
+        System.out.print("Bike ID: ");
+        String bikeID = scanner.nextLine();
 
-                // 创建空的 lastThreeTrips 数组
-                String[] lastThreeTrips = new String[3];
+        System.out.print("User Email: ");
+        String email = scanner.nextLine();
 
-                RegisteredUsers user =
-                        new RegisteredUsers(fullName, email, dob,
-                                cardNumber, expiry, provider,
-                                cvv, userType, lastThreeTrips);
+        RegisteredUsers user = userService.findUserByEmail(email);
 
-                userService.addUser(user);
-
-                break;
-
-            case 2:
-                userService.viewUsers();
-                break;
+        if (user == null) {
+            System.out.println("User not found.");
+            return;
         }
+
+        rentalService.startRental(bikeID, user);
+    }
+
+    private void endRental() {
+
+        System.out.print("Bike ID: ");
+        String bikeID = scanner.nextLine();
+
+        rentalService.endRental(bikeID);
     }
 }
